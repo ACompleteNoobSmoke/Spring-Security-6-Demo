@@ -16,6 +16,6 @@ public class HomeController {
 
     @GetMapping("/greet")
     public String greet(HttpServletRequest request) {
-        return "Welcome ACompleteNoobSmoke: " + request.getSession();
+        return "Welcome ACompleteNoobSmoke: " + request.changeSessionId();
     }
 }
