@@ -1,7 +1,6 @@
 package com.noobsmoke.springsecure.repository;
 
 import com.noobsmoke.springsecure.model.Student;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.List;
 public class FakeRepo {
 
     private List<Student> studentList;
-
 
     {
         studentList = new ArrayList<>();
@@ -35,7 +33,6 @@ public class FakeRepo {
         studentList.add(new Student(18, "Rachel", 79));
         studentList.add(new Student(19, "Sam", 83));
         studentList.add(new Student(20, "Tina", 96));
-
     }
 
     public List<Student> getAllStudents() {
