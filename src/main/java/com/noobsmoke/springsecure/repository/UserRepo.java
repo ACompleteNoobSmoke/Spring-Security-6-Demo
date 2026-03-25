@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.swing.*;
+import java.util.Optional;
 
 @Repository
 public interface UserRepo extends JpaRepository<MyUsers, Long> {
-    MyUsers findByUserID (Long userID);
-    MyUsers findByUserName (String userName);
+    Optional<MyUsers> findByUserID (Long userID);
+    Optional<MyUsers> findByUserName (String userName);
 }
