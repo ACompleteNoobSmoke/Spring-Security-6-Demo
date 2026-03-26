@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/students")
+@RequestMapping("/v1/students")
 @RestController
 @AllArgsConstructor
 public class StudentController {
@@ -17,7 +17,7 @@ public class StudentController {
     private final FakeRepo fakeRepo;
 
 
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity<List<Student>> getStudents() {
         return ResponseEntity.ok(fakeRepo.getAllStudents());
     }
