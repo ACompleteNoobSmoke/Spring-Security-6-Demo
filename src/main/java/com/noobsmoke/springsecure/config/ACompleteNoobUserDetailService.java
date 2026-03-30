@@ -16,7 +16,7 @@ public class ACompleteNoobUserDetailService implements UserDetailsService {
         return userRepo.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username Does Not Exist"));
     }
 
-    public UserDetails loadUserByID(Long userID) throws IllegalArgumentException {
-        return userRepo.findByUserID(userID).orElseThrow(() -> new IllegalArgumentException("ID Could Not Be Found"));
-    }
+//    public UserDetails loadUserByID(Long userID) throws IllegalArgumentException {
+//        return userRepo.findByUserID(userID).orElseThrow(() -> new IllegalArgumentException("ID Could Not Be Found"));
+//    }
 }

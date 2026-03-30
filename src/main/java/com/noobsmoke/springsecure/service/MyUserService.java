@@ -4,6 +4,9 @@ import com.noobsmoke.springsecure.dto.LoginRequestDTO;
 import com.noobsmoke.springsecure.model.MyUsers;
 import com.noobsmoke.springsecure.repository.UserRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ public class MyUserService {
 
     private final UserRepo userRepo;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private AuthenticationManager authenticationManager;
 
 
     public MyUsers registerNewUser(MyUsers newUser) {
@@ -22,7 +26,13 @@ public class MyUserService {
     }
 
     public MyUsers loginUser(LoginRequestDTO loginRequestDTO) {
-        return userRepo.findMyUsersByUsernameAndPassword(loginRequestDTO.username(), loginRequestDTO.password())
-                .orElseThrow(() -> new RuntimeException("User cannot be found"));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequestDTO.username(),
+                        loginRequestDTO.password()
+                )
+        );
+        if (!authentication.isAuthenticated()) throw new RuntimeException("Not Authenticated");
+        return userRepo.findByUserName(loginRequestDTO.username()).orElseThrow(() -> new RuntimeException("User Cannot Be Found!"));
     }
 }
