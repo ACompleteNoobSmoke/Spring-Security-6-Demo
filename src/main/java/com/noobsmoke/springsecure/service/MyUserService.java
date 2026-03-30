@@ -1,5 +1,6 @@
 package com.noobsmoke.springsecure.service;
 
+import com.noobsmoke.springsecure.dto.LoginRequestDTO;
 import com.noobsmoke.springsecure.model.MyUsers;
 import com.noobsmoke.springsecure.repository.UserRepo;
 import lombok.AllArgsConstructor;
@@ -18,5 +19,10 @@ public class MyUserService {
         newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
         userRepo.save(newUser);
         return newUser;
+    }
+
+    public MyUsers loginUser(LoginRequestDTO loginRequestDTO) {
+        return userRepo.findMyUsersByUsernameAndPassword(loginRequestDTO.username(), loginRequestDTO.password())
+                .orElseThrow(() -> new RuntimeException("User cannot be found"));
     }
 }
