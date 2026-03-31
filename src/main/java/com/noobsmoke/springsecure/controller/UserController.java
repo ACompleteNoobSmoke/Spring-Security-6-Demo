@@ -1,6 +1,7 @@
 package com.noobsmoke.springsecure.controller;
 
 import com.noobsmoke.springsecure.dto.LoginRequestDTO;
+import com.noobsmoke.springsecure.dto.UserResponseDTO;
 import com.noobsmoke.springsecure.model.MyUsers;
 import com.noobsmoke.springsecure.service.MyUserService;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<MyUsers> login(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<UserResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         return ResponseEntity.ok(userService.loginUser(loginRequestDTO));
     }
 }

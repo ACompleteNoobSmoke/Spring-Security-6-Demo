@@ -1,6 +1,7 @@
 package com.noobsmoke.springsecure.service;
 
 import com.noobsmoke.springsecure.dto.LoginRequestDTO;
+import com.noobsmoke.springsecure.dto.UserResponseDTO;
 import com.noobsmoke.springsecure.model.MyUsers;
 import com.noobsmoke.springsecure.repository.UserRepo;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,8 @@ public class MyUserService {
 
     private final UserRepo userRepo;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
 
 
     public MyUsers registerNewUser(MyUsers newUser) {
@@ -25,7 +27,7 @@ public class MyUserService {
         return newUser;
     }
 
-    public MyUsers loginUser(LoginRequestDTO loginRequestDTO) {
+    public UserResponseDTO loginUser(LoginRequestDTO loginRequestDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequestDTO.username(),
@@ -33,6 +35,8 @@ public class MyUserService {
                 )
         );
         if (!authentication.isAuthenticated()) throw new RuntimeException("Not Authenticated");
-        return userRepo.findByUserName(loginRequestDTO.username()).orElseThrow(() -> new RuntimeException("User Cannot Be Found!"));
+        String token = jwtService.generateToken(loginRequestDTO.username());
+        MyUsers users = userRepo.findByUserName(loginRequestDTO.username()).orElseThrow(() -> new RuntimeException("User Cannot Be Found!"));
+        return  UserResponseDTO.builder().jwtToken(token).users(users).build();
     }
 }
