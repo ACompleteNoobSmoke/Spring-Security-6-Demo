@@ -1,5 +1,6 @@
 package com.noobsmoke.springsecure.config;
 
+import com.noobsmoke.springsecure.service.JWTService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,6 +35,8 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    private final JWTAuthFilter jwtAuthFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
        return http
@@ -46,6 +49,7 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .authenticationProvider(authenticationProvider())
+               .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 //               .cors(Customizer.withDefaults())
                 .build();
     }
